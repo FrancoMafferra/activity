@@ -1,0 +1,22 @@
+name: Daily Commit Bot
+
+on:
+  schedule:
+    - cron: '0 14 * * 1-5' # Ejecuta a las 14:00 UTC (11:00 ARG) de lunes a viernes
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Make a fake commit
+        run: |
+          echo "$(date)" >> activity.txt
+          git config --global user.name 'Commit Bot'
+          git config --global user.email 'bot@example.com'
+          git add activity.txt
+          git commit -m "Update activity.txt"
+          git push
